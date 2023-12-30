@@ -1,3 +1,5 @@
+[![build-secureblue](https://github.com/Zamitou/secureblue/actions/workflows/build.yml/badge.svg)](https://github.com/Zamitou/secureblue/actions/workflows/build.yml)
+
 This repo is a fork of [secureblue](https://github.com/secureblue/secureblue) with some modifications for private use:
 
 eg.
