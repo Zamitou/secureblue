@@ -14,6 +14,7 @@ screens:
     source: yafti.screen.consent
     values:
       title: Kernel hardening
+      show_terminal: true
       description: |
         This step will enable additional kernel hardening. 
       actions:
@@ -23,6 +24,7 @@ screens:
     source: yafti.screen.consent
     values:
       title: Flatpak hardening
+      show_terminal: true
       description: |
         This step will enable hardening for installed flatpaks.
       actions:
@@ -32,13 +34,14 @@ screens:
     source: yafti.screen.consent
     values:
       title: Flathub setup
+      show_terminal: true
       description: |
         This step will therefore remove all basic Fedora Flatpaks from your system and replace it with Flathub's verified repository. It will also disable the system flatpaks in favor of user flatpaks.
       actions:
         - run: flatpak remote-delete --system --force fedora
         - run: flatpak remote-delete --user --force fedora
         - run: flatpak remove --system --noninteractive --all
-        - run: flatpak remote-add --if-not-exists --user --subset=verified flathub-verified https://flathub.org/repo/flathub.flatpakrepo
+        - run: flatpak remote-add --if-not-exists --user  flathub https://flathub.org/repo/flathub.flatpakrepo
         - run: flatpak remote-add --if-not-exists --user gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
   
   applications:
