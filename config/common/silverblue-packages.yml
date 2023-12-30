@@ -1,14 +1,13 @@
 type: rpm-ostree
 install:    
-  - gnome-shell-extension-appindicator
-  - gnome-shell-extension-pop-shell
-  - gnome-console
+  - gnome-shell-extension-just-perfection
+  - gnome-shell-extension-blur-my-shell
   - gnome-text-editor
   - firewall-config
   - gnome-disk-utility
+  - libgda
+  - libgda-sqlite
 remove:
-  - gnome-terminal
-  - gnome-terminal-nautilus
   - gnome-tour
   - yelp
   - gnome-user-share
