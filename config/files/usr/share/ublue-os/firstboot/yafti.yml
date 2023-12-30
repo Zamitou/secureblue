@@ -19,15 +19,6 @@ screens:
       actions:
         - run: pkexec ujust set-kargs-hardening
 
-  can-we-enable-printing:
-    source: yafti.screen.consent
-    values:
-      title: Printing
-      description: |
-        The cups printing service is disabled by default to reduce attack surface. If you need printing support, run "just enable-cups" manually.
-      actions:
-        - run: just enable-cups
-
   can-we-harden-your-flatpaks:
     source: yafti.screen.consent
     values:
@@ -48,6 +39,7 @@ screens:
         - run: flatpak remote-delete --user --force fedora
         - run: flatpak remove --system --noninteractive --all
         - run: flatpak remote-add --if-not-exists --user --subset=verified flathub-verified https://flathub.org/repo/flathub.flatpakrepo
+        - run: flatpak remote-add --if-not-exists --user gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
   
   applications:
     source: yafti.screen.package
@@ -59,9 +51,9 @@ screens:
         user: true
         system: false
       groups:
-        Core GNOME Apps:
+        Core Apps:
           description: Core system applications for the GNOME desktop environment.
-          default: false
+          default: true
           packages:
             - Calculator: org.gnome.Calculator
             - Calendar: org.gnome.Calendar
@@ -73,28 +65,83 @@ screens:
             - Disk Usage Analyzer: org.gnome.baobab
             - Document Scanner: org.gnome.SimpleScan
             - Document Viewer: org.gnome.Evince
-            - Extension Manager: com.mattjakeman.ExtensionManager
             - Font Viewer: org.gnome.font-viewer
             - Image Viewer: org.gnome.Loupe
             - Logs: org.gnome.Logs
             - Maps: org.gnome.Maps
-            - Photos (Organizer): org.gnome.Photos
-            - Sushi (Nautilus Previewer): org.gnome.NautilusPreviewer
+            - Sushi: org.gnome.NautilusPreviewer
             - Text Editor: org.gnome.TextEditor
-            - Videos (Player): org.gnome.Totem
             - Weather: org.gnome.Weather
-
-        Core KDE Plasma Apps:
-          description: Core system applications for the KDE Plasma desktop environment.
-          default: false
-          packages:
-            - Gwenview: org.kde.gwenview
+            - Dialect: app.drey.Dialect
+            - Athenticator: com.belmoussaoui.Authenticator
+            - File Shredder: com.github.ADBeveridge.Raider
+            - ungoogled-chromium: com.github.Eloston.UngoogledChromium
+            - Cipher: com.github.arshubham.cipher
+            - Wike: com.github.hugolabe.Wike
+            - PDF Arranger: com.github.jeromerobert.pdfarranger
+            - Foliate: com.github.johnfactotum.Foliate
+            - Xournal++: com.github.xournalpp.xournalpp
+            - RawTherapee: com.rawtherapee.RawTherapee
+            - Sigil: com.sigil_ebook.Sigil
+            - WPS Office: com.wps.Office
+            - Pipeline: de.schmidhuberj.tubefeeder
+            - Tuba: dev.geopjr.Tuba
+            - Handbrake: fr.handbrake.ghb
+            - Metadata Cleaner: fr.romainvigier.MetadataCleaner
+            - Amberol: io.bassi.Amberol
+            - Planify: io.github.alainm23.planify
+            - Celluloid: io.github.celluloid_player.Celluloid
+            - Paper Clip: io.github.diegoivan.pdf_metadata_editor
+            - Switcheroo: io.gitlab.adhami3310.Converter
+            - Footage: io.gitlab.adhami3310.Footage
+            - NewsFlash: io.gitlab.news_flash.NewsFlash
+            - Obsidian: md.obsidian.Obsidian
+            - Lutris: net.lutris.Lutris
+            - Scribus: net.scribus.Scribus
+            - Audacity: org.audacityteam.Audacity
+            - Blender: org.blender.Blender
+            - Briar: org.briarproject.Briar
+            - Cryptomator: org.cryptomator.Cryptomator
+            - Gimp: org.gimp.GIMP
+            - Builder: org.gnome.Builder
+            - Fractal: org.gnome.Fractal
+            - GnuCash: org.gnucash.GnuCash
+            - Font Downloader: org.gustavoperedo.FontDownloader
+            - Inkscape: org.inkscape.Inkscape
+            - Krita: org.kde.krita
+            - LibreOffice: org.libreoffice.LibreOffice
+            - LocalSend: org.localsend.localsend_app
+            - Mixxx: org.Mixxx.Mixxx
+            - Parabolic: org.nickvision.tubeconverter
+            - OnionShare: org.onionshare.OnionShare
+            - Pitivi: org.pitivi.Pitivi
+            - Signal: org.signal.Signal
+            - VLC: org.videolan.VLC
+            - Workbench: re.sonny.Workbench
+            - Zoom: us.zoom.Zoom
+            - Upscaler: io.gitlab.theevilskeleton.Upscaler
+            
             
         System Apps:
-          description: System applications for all desktop environments.
+          description: System applications
           default: true
           packages:
-            - Flatseal (Permission Manager): com.github.tchx84.Flatseal
+            - Flatseal: com.github.tchx84.Flatseal
+            - Bottles: com.usebottles.bottles
+            - GDM Settings: io.github.realmazharhussain.GdmSettings
+            - PeaZip: io.github.peazip.PeaZip
+            - KeePassXC: org.keepassxc.KeePassXC
+            - Thunderbird: org.mozilla.Thunderbird
+            - Firefox: org.mozilla.Firefox
+            - Tor Browser Launcher: com.github.micahflee.torbrowser-launcher
+            - Mullvad Browser: net.mullvad.MullvadBrowser
+            - qpwgraph: org.rncbc.qpwgraph
+            - Main Menu: page.codeberg.libre_menu_editor.LibreMenuEditor
+            - Fedora Media Writer: org.fedoraproject.MediaWriter
+            - Boxes: org.gnome.Boxes
+            - Passwords and Keys: org.gnome.seahorse.Application
+            - Extension Manager: com.mattjakeman.ExtensionManager
+            
 
   final-screen:
     source: yafti.screen.title
