@@ -1,26 +1,12 @@
-<p align="center">
-  <a href="https://github.com/secureblue/secureblue">
-    <img src="https://github.com/secureblue/secureblue/assets/129108030/292e0ecc-50b8-4de5-a11a-bfe292489f6c" href="https://github.com/secureblue/secureblue" width=180 />
-  </a>
-</p>
+This repo is a fork of [secureblue](https://github.com/secureblue/secureblue) with some modifications for private use:
 
-<h1 align="center">secureblue</h1>
-
-
-[![secureblue](https://github.com/secureblue/secureblue/actions/workflows/build.yml/badge.svg)](https://github.com/secureblue/secureblue/actions/workflows/build.yml)
-
-This repo takes the [uBlue](https://universal-blue.org/) starting point and selectively applies hardening with the following goals:
-
-- Increase defenses against the exploitation of both known and unknown vulnerabilities.
-- Avoid sacrificing usability for most use cases where possible
-
-The following are not in scope for this project:
-- Anything related to increasing "privacy", especially when at odds with improving security
-- Anything related to "degoogling" chromium. For example, we will not be replacing chromium with Brave or ungoogled-chromium.
+eg.
+- removing chromium
+- configuring yafti for a personal selection of packages (flatpaks to install after first boot)
 
 ## What
 
-Hardening applied:
+The following Hardening still applies:
 
 - Setting numerous hardened sysctl values (Inspired by but not the same as Kicksecure's)
 - Disabling coredumps in limits.conf
@@ -36,9 +22,6 @@ Hardening applied:
 - Enabling only the [flathub-verified](https://flathub.org/apps/collection/verified/1) remote by default
 - Sets numerous hardening kernel parameters (Inspired by [Madaidan's Hardening Guide](https://madaidans-insecurities.github.io/guides/linux-hardening.html))
 - Installs and enables [hardened_malloc](https://github.com/GrapheneOS/hardened_malloc) globally, including for flatpaks
-- Installing Chromium instead of Firefox in the base image ([Why chromium?](https://grapheneos.org/usage#web-browsing)) ([Why not flatpak chromium?](https://forum.vivaldi.net/post/669805))
-- Including a hardened chromium config that disables JIT javascript ([why?](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode/#is-jit-worth-it))
-- Pushing upstream fedora to harden the build for all fedora users, including secureblue users ([for example, by enabling CFI](https://bugzilla.redhat.com/show_bug.cgi?id=2252874))
 
 ## Why
 
@@ -59,55 +42,22 @@ Have a look at [PREINSTALL-README](PREINSTALL-README.md) before proceeding.
 #### Without User Namespaces
 
 ##### desktop
-- kinoite-main-hardened
-- kinoite-nvidia-hardened
-- bluefin-main-hardened
-- bluefin-nvidia-hardened
 - silverblue-main-hardened
 - silverblue-nvidia-hardened
-- sericea-main-hardened
-- sericea-nvidia-hardened
-
+  
 ##### laptop
-- kinoite-main-laptop-hardened
-- kinoite-nvidia-laptop-hardened
-- bluefin-main-laptop-hardened
-- bluefin-nvidia-laptop-hardened
 - silverblue-main-laptop-hardened
 - silverblue-nvidia-laptop-hardened
-- sericea-main-laptop-hardened
-- sericea-nvidia-laptop-hardened
-
-##### server
-- server-main-hardened
-- server-nvidia-hardened
-
+  
 #### With User Namespaces
 
 ##### desktop
-- kinoite-main-userns-hardened
-- kinoite-nvidia-userns-hardened
-- bluefin-main-userns-hardened
-- bluefin-nvidia-userns-hardened
 - silverblue-main-userns-hardened
 - silverblue-nvidia-userns-hardened
-- sericea-main-userns-hardened
-- sericea-nvidia-userns-hardened
 
 ##### laptop
-- kinoite-main-laptop-userns-hardened
-- kinoite-nvidia-laptop-userns-hardened
-- bluefin-main-laptop-userns-hardened
-- bluefin-nvidia-laptop-userns-hardened
 - silverblue-main-laptop-userns-hardened
 - silverblue-nvidia-laptop-userns-hardened
-- sericea-main-laptop-userns-hardened
-- sericea-nvidia-laptop-userns-hardened
-
-##### server
-- server-main-userns-hardened
-- server-nvidia-userns-hardened
-
 
 ### Rebasing
 
@@ -115,7 +65,7 @@ To rebase an existing Silverblue/Kinoite installation to the latest build:
 
 - First rebase to the unsigned image, to get the proper signing keys and policies installed:
   ```
-  rpm-ostree rebase ostree-unverified-registry:ghcr.io/secureblue/$IMAGE_NAME:latest
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/Zamitou/$IMAGE_NAME:latest
   ```
 - Reboot to complete the rebase:
   ```
@@ -123,7 +73,7 @@ To rebase an existing Silverblue/Kinoite installation to the latest build:
   ```
 - Then rebase to the signed image, like so:
   ```
-  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/secureblue/$IMAGE_NAME:latest
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/Zamitou/$IMAGE_NAME:latest
   ```
 - Reboot again to complete the installation
   ```
