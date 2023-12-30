@@ -42,7 +42,6 @@ screens:
         - run: flatpak remote-delete --user --force fedora
         - run: flatpak remove --system --noninteractive --all
         - run: flatpak remote-add --if-not-exists --user  flathub https://flathub.org/repo/flathub.flatpakrepo
-        - run: flatpak remote-add --if-not-exists --user gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
   
   applications:
     source: yafti.screen.package
