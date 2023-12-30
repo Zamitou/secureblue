@@ -11,8 +11,6 @@ on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-wor
   push:
     branches:
       - live
-      - template
-      - staging
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
   pull_request:
@@ -43,54 +41,16 @@ jobs:
           # desktop
           - recipes/desktop/recipe-silverblue-main.yml
           - recipes/desktop/recipe-silverblue-nvidia.yml
-          - recipes/desktop/recipe-kinoite-main.yml
-          - recipes/desktop/recipe-kinoite-nvidia.yml
-          - recipes/desktop/recipe-bluefin-main.yml
-          - recipes/desktop/recipe-bluefin-nvidia.yml
-          - recipes/desktop/recipe-sericea-main.yml
-          - recipes/desktop/recipe-sericea-nvidia.yml
-          - recipes/desktop/recipe-wayblue-wayfire-main.yml
-          - recipes/desktop/recipe-wayblue-wayfire-nvidia.yml
           # laptop
           - recipes/laptop/recipe-silverblue-main-laptop.yml
           - recipes/laptop/recipe-silverblue-nvidia-laptop.yml
-          - recipes/laptop/recipe-kinoite-main-laptop.yml
-          - recipes/laptop/recipe-kinoite-nvidia-laptop.yml
-          - recipes/laptop/recipe-bluefin-main-laptop.yml
-          - recipes/laptop/recipe-bluefin-nvidia-laptop.yml
-          - recipes/laptop/recipe-sericea-main-laptop.yml
-          - recipes/laptop/recipe-sericea-nvidia-laptop.yml
-          - recipes/laptop/recipe-wayblue-wayfire-main-laptop.yml
-          - recipes/laptop/recipe-wayblue-wayfire-nvidia-laptop.yml
-          # server
-          - recipes/server/recipe-server-main.yml
-          - recipes/server/recipe-server-nvidia.yml
           # userns
           # desktop
           - recipes/desktop/recipe-silverblue-main-userns.yml
           - recipes/desktop/recipe-silverblue-nvidia-userns.yml
-          - recipes/desktop/recipe-kinoite-main-userns.yml
-          - recipes/desktop/recipe-kinoite-nvidia-userns.yml
-          - recipes/desktop/recipe-bluefin-main-userns.yml
-          - recipes/desktop/recipe-bluefin-nvidia-userns.yml
-          - recipes/desktop/recipe-sericea-main-userns.yml
-          - recipes/desktop/recipe-sericea-nvidia-userns.yml
-          - recipes/desktop/recipe-wayblue-wayfire-main-userns.yml
-          - recipes/desktop/recipe-wayblue-wayfire-nvidia-userns.yml
           # laptop
           - recipes/laptop/recipe-silverblue-main-laptop-userns.yml
           - recipes/laptop/recipe-silverblue-nvidia-laptop-userns.yml
-          - recipes/laptop/recipe-kinoite-main-laptop-userns.yml
-          - recipes/laptop/recipe-kinoite-nvidia-laptop-userns.yml
-          - recipes/laptop/recipe-bluefin-main-laptop-userns.yml
-          - recipes/laptop/recipe-bluefin-nvidia-laptop-userns.yml
-          - recipes/laptop/recipe-sericea-main-laptop-userns.yml
-          - recipes/laptop/recipe-sericea-nvidia-laptop-userns.yml
-          - recipes/laptop/recipe-wayblue-wayfire-main-laptop-userns.yml
-          - recipes/laptop/recipe-wayblue-wayfire-nvidia-laptop-userns.yml
-          # server
-          - recipes/server/recipe-server-main-userns.yml
-          - recipes/server/recipe-server-nvidia-userns.yml
 
 
     steps:
