@@ -7,7 +7,6 @@ install:
   # if you ever download or compile any custom software on your machine.
   - libadwaita
   - headsetcontrol
-  - chromium
   
 remove:
   - openssh-server
