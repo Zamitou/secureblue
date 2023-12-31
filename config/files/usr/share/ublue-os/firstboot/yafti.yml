@@ -40,7 +40,9 @@ screens:
       actions:
         - run: flatpak remote-delete --system --force fedora
         - run: flatpak remote-delete --user --force fedora
+        - run: flatpak remote-delete --system --force flathub-verified
         - run: flatpak remote-delete --user --force flathub-verified
+        - run: flatpak remote-delete --system --force gnome-nightly
         - run: flatpak remote-delete --user --force gnome-nightly
         - run: flatpak remove --system --noninteractive --all
         - run: flatpak remote-add --if-not-exists --user --subpath=flathub flathub https://flathub.org/repo/flathub.flatpakrepo
