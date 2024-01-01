@@ -1,13 +1,13 @@
 type: rpm-ostree
 repos: 
-  - https://copr.fedorainfracloud.org/coprs/secureblue/hardened_malloc/repo/fedora-39/secureblue-hardened_malloc-fedora-39.repo
+  #- https://copr.fedorainfracloud.org/coprs/secureblue/hardened_malloc/repo/fedora-39/secureblue-hardened_malloc-fedora-39.repo
   - https://copr.fedorainfracloud.org/coprs/secureblue/bubblejail/repo/fedora-39/secureblue-bubblejail-fedora-39.repo
 install:    
   - yt-dlp
   - lm_sensors
   - mediainfo
   - lynis
-  - hardened_malloc
+  #- hardened_malloc
   - chkrootkit
   - bubblejail
   
