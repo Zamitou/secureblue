@@ -137,8 +137,6 @@ screens:
             - GDM Settings: io.github.realmazharhussain.GdmSettings
             - PeaZip: io.github.peazip.PeaZip
             - KeePassXC: org.keepassxc.KeePassXC
-            - Thunderbird: org.mozilla.Thunderbird
-            - Firefox: org.mozilla.Firefox
             - Tor Browser Launcher: com.github.micahflee.torbrowser-launcher
             - Mullvad Browser: net.mullvad.MullvadBrowser
             - qpwgraph: org.rncbc.qpwgraph
