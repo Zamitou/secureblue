@@ -7,7 +7,7 @@ install:
   - gnome-disk-utility
   - libgda
   - libgda-sqlite
-  - thunderbird
+  #- thunderbird
 remove:
   - gnome-tour
   - yelp
