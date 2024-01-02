@@ -21,9 +21,7 @@ The following Hardening still applies:
 - Installing chkrootkit
 - (Non-userns variants) Disabling unprivileged user namespaces
 - (Non-userns variants) Replacing bubblewrap with bubblewrap-suid so flatpak can be used without unprivileged user namespaces
-- Enabling only the [flathub-verified](https://flathub.org/apps/collection/verified/1) remote by default
 - Sets numerous hardening kernel parameters (Inspired by [Madaidan's Hardening Guide](https://madaidans-insecurities.github.io/guides/linux-hardening.html))
-- Installs and enables [hardened_malloc](https://github.com/GrapheneOS/hardened_malloc) globally, including for flatpaks
 
 ## Why
 
