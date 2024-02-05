@@ -6,6 +6,8 @@ eg.
 - removing chromium
 - configuring yafti for a personal selection of packages (flatpaks to install after first boot)
 
+See note
+
 ## What
 
 The following Hardening still applies:
