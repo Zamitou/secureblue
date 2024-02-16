@@ -10,6 +10,8 @@ install:
   #- hardened_malloc
   - chkrootkit
   - bubblejail
+  - usbguard
+  - usbguard-dbus
 
 
 
