@@ -11,6 +11,11 @@ install:
 remove:
   - openssh-server
   - fedora-flathub-remote
+  - virtualbox-guest-additions
+  - open-vm-tools
+  - open-vm-tools-desktop
+
+
 
 
 
