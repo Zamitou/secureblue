@@ -1,16 +1,18 @@
 # This workflow builds every branch of the repository daily at 16:30 UTC, one hour after ublue-os/nvidia builds.
-# The images are also built after pushuing changes or pull requests.
+# The images are also built after pushing changes or pull requests.
 # The builds can also be triggered manually in the Actions tab thanks to workflow dispatch.
 # Only the branch called `live` is published.
 
 
 name: build-secureblue
-on: # https://docs.github.com/en/actions/uses-workflows/events-that-trigger-workflows
+on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   schedule:
     - cron: "30 16 * * *"
   push:
     branches:
       - live
+      - template
+      - staging
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
   pull_request:
@@ -41,20 +43,84 @@ jobs:
           # desktop
           - recipes/desktop/recipe-silverblue-main.yml
           - recipes/desktop/recipe-silverblue-nvidia.yml
+          - recipes/desktop/recipe-kinoite-main.yml
+          - recipes/desktop/recipe-kinoite-nvidia.yml
+          - recipes/desktop/recipe-cinnamon-main.yml
+          - recipes/desktop/recipe-cinnamon-nvidia.yml
+          - recipes/desktop/recipe-bluefin-main.yml
+          - recipes/desktop/recipe-bluefin-nvidia.yml
+          - recipes/desktop/recipe-sericea-main.yml
+          - recipes/desktop/recipe-sericea-nvidia.yml
+          - recipes/desktop/recipe-wayblue-wayfire-main.yml
+          - recipes/desktop/recipe-wayblue-wayfire-nvidia.yml
           # laptop
           - recipes/laptop/recipe-silverblue-main-laptop.yml
           - recipes/laptop/recipe-silverblue-nvidia-laptop.yml
+          - recipes/laptop/recipe-silverblue-asus.yml
+          - recipes/laptop/recipe-silverblue-asus-nvidia.yml
+          - recipes/laptop/recipe-kinoite-main-laptop.yml
+          - recipes/laptop/recipe-kinoite-nvidia-laptop.yml
+          - recipes/laptop/recipe-cinnamon-main-laptop.yml
+          - recipes/laptop/recipe-cinnamon-nvidia-laptop.yml
+          - recipes/laptop/recipe-bluefin-main-laptop.yml
+          - recipes/laptop/recipe-bluefin-nvidia-laptop.yml
+          - recipes/laptop/recipe-sericea-main-laptop.yml
+          - recipes/laptop/recipe-sericea-nvidia-laptop.yml
+          - recipes/laptop/recipe-wayblue-wayfire-main-laptop.yml
+          - recipes/laptop/recipe-wayblue-wayfire-nvidia-laptop.yml
+          # framework
+          - recipes/laptop/recipe-silverblue-framework.yml
+          - recipes/laptop/recipe-kinoite-framework.yml
+          - recipes/laptop/recipe-bluefin-framework.yml
+          - recipes/laptop/recipe-sericea-framework.yml
+          # server
+          - recipes/server/recipe-server-main.yml
+          - recipes/server/recipe-server-nvidia.yml
           # userns
           # desktop
           - recipes/desktop/recipe-silverblue-main-userns.yml
           - recipes/desktop/recipe-silverblue-nvidia-userns.yml
+          - recipes/desktop/recipe-kinoite-main-userns.yml
+          - recipes/desktop/recipe-kinoite-nvidia-userns.yml
+          - recipes/desktop/recipe-cinnamon-main-userns.yml
+          - recipes/desktop/recipe-cinnamon-nvidia-userns.yml
+          - recipes/desktop/recipe-bluefin-main-userns.yml
+          - recipes/desktop/recipe-bluefin-nvidia-userns.yml
+          - recipes/desktop/recipe-bluefin-dx-main-userns.yml
+          - recipes/desktop/recipe-bluefin-dx-nvidia-userns.yml
+          - recipes/desktop/recipe-sericea-main-userns.yml
+          - recipes/desktop/recipe-sericea-nvidia-userns.yml
+          - recipes/desktop/recipe-wayblue-wayfire-main-userns.yml
+          - recipes/desktop/recipe-wayblue-wayfire-nvidia-userns.yml
           # laptop
           - recipes/laptop/recipe-silverblue-main-laptop-userns.yml
           - recipes/laptop/recipe-silverblue-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-silverblue-asus-userns.yml
+          - recipes/laptop/recipe-silverblue-asus-nvidia-userns.yml
+          - recipes/laptop/recipe-kinoite-main-laptop-userns.yml
+          - recipes/laptop/recipe-kinoite-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-cinnamon-main-laptop-userns.yml
+          - recipes/laptop/recipe-cinnamon-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-bluefin-main-laptop-userns.yml
+          - recipes/laptop/recipe-bluefin-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-bluefin-dx-main-laptop-userns.yml
+          - recipes/laptop/recipe-bluefin-dx-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-sericea-main-laptop-userns.yml
+          - recipes/laptop/recipe-sericea-nvidia-laptop-userns.yml
+          - recipes/laptop/recipe-wayblue-wayfire-main-laptop-userns.yml
+          - recipes/laptop/recipe-wayblue-wayfire-nvidia-laptop-userns.yml
+          # framework
+          - recipes/laptop/recipe-silverblue-framework-userns.yml
+          - recipes/laptop/recipe-kinoite-framework-userns.yml
+          - recipes/laptop/recipe-bluefin-framework-userns.yml
+          - recipes/laptop/recipe-bluefin-dx-framework-userns.yml
+          - recipes/laptop/recipe-sericea-framework-userns.yml
+          # server
+          - recipes/server/recipe-server-main-userns.yml
+          - recipes/server/recipe-server-nvidia-userns.yml
 
 
     steps:
-
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
         uses: actions/checkout@v4
@@ -89,15 +155,23 @@ jobs:
           echo "IMAGE_NAME=$(yq '.name' ./config/${{ matrix.recipe }})" >> $GITHUB_ENV
           echo "IMAGE_DESCRIPTION=$(yq '.description' ./config/${{ matrix.recipe }})" >> $GITHUB_ENV
           echo "IMAGE_MAJOR_VERSION=$(yq '.image-version' ./config/${{ matrix.recipe }})" >> $GITHUB_ENV
-          echo "BASE_IMAGE_URL=$(yq '.base-image' ./config/${{ matrix.recipe }})" >> $GITHUB_ENV
           BASE_IMAGE=$(yq '.base-image' ./config/${{ matrix.recipe }})
           echo "BASE_IMAGE_URL=$BASE_IMAGE" >> $GITHUB_ENV
           echo "BASE_IMAGE_NAME=$(echo $BASE_IMAGE | sed 's/.*\/.*\///')" >> $GITHUB_ENV
-      
+
       - name: Verify base image
+        if: ${{ ! contains(env.IMAGE_NAME, 'wayblue') }}
         uses: EyeCantCU/cosign-action/verify@v0.2.2
         with:
           containers: ${{ env.BASE_IMAGE_NAME }}:${{ env.IMAGE_MAJOR_VERSION }}
+
+      - name: Verify base image
+        if: ${{ contains(env.IMAGE_NAME, 'wayblue') }}
+        uses: EyeCantCU/cosign-action/verify@v0.2.2
+        with:
+          containers: ${{ env.BASE_IMAGE_NAME }}:${{ env.IMAGE_MAJOR_VERSION }}
+          registry: 'ghcr.io/wayblueorg'
+          pubkey: 'https://raw.githubusercontent.com/wayblueorg/wayblue/live/cosign.pub'
 
       - name: Get current version
         id: labels
@@ -117,7 +191,7 @@ jobs:
           # Have tags for tracking builds during pull request
           SHA_SHORT="${GITHUB_SHA::7}"
 
-          # uses clever bash string templating, https://stackoverflow.com/q/40771781
+          # Using clever bash string templating, https://stackoverflow.com/q/40771781
           # don't make malformed tags if $MAJOR_VERSION is empty (base-image didn't include proper labels) --
           COMMIT_TAGS+=("pr-${{ github.event.number }}${MAJOR_VERSION:+-$MAJOR_VERSION}")
           COMMIT_TAGS+=("${SHA_SHORT}${MAJOR_VERSION:+-$MAJOR_VERSION}")
@@ -184,7 +258,7 @@ jobs:
           remove-android: 'true'
           remove-haskell: 'true'
 
-      # Build image uses Buildah action
+      # Build image using Buildah action
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
