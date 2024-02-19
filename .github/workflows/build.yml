@@ -5,7 +5,7 @@
 
 
 name: build-secureblue
-on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+on: # https://docs.github.com/en/actions/uses-workflows/events-that-trigger-workflows
   schedule:
     - cron: "30 16 * * *"
   push:
@@ -57,10 +57,10 @@ jobs:
 
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
-        using: actions/checkout@v4
+        uses: actions/checkout@v4
 
       # Confirm that cosign.pub matches SIGNING_SECRET
-      - using: sigstore/cosign-installer@v3.4.0
+      - uses: sigstore/cosign-installer@v3.4.0
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/live' || github.ref == 'refs/heads/staging')
 
       - name: Check SIGNING_SECRET matches cosign.pub
@@ -82,7 +82,7 @@ jobs:
           fi
 
       - name: Add yq (for reading recipe.yml)
-        using: mikefarah/yq@v4.40.5
+        uses: mikefarah/yq@v4.40.5
 
       - name: Gather image data from recipe
         run: |
@@ -95,7 +95,7 @@ jobs:
           echo "BASE_IMAGE_NAME=$(echo $BASE_IMAGE | sed 's/.*\/.*\///')" >> $GITHUB_ENV
       
       - name: Verify base image
-        using: EyeCantCU/cosign-action/verify@v0.2.2
+        uses: EyeCantCU/cosign-action/verify@v0.2.2
         with:
           containers: ${{ env.BASE_IMAGE_NAME }}:${{ env.IMAGE_MAJOR_VERSION }}
 
@@ -117,7 +117,7 @@ jobs:
           # Have tags for tracking builds during pull request
           SHA_SHORT="${GITHUB_SHA::7}"
 
-          # Using clever bash string templating, https://stackoverflow.com/q/40771781
+          # uses clever bash string templating, https://stackoverflow.com/q/40771781
           # don't make malformed tags if $MAJOR_VERSION is empty (base-image didn't include proper labels) --
           COMMIT_TAGS+=("pr-${{ github.event.number }}${MAJOR_VERSION:+-$MAJOR_VERSION}")
           COMMIT_TAGS+=("${SHA_SHORT}${MAJOR_VERSION:+-$MAJOR_VERSION}")
@@ -151,7 +151,7 @@ jobs:
 
       # Build metadata
       - name: Image Metadata
-        using: docker/metadata-action@v5
+        uses: docker/metadata-action@v5
         id: meta
         with:
           images: |
@@ -167,27 +167,27 @@ jobs:
       # https://github.com/macbre/push-to-ghcr/issues/12
       - name: Lowercase Registry
         id: registry_case
-        using: ASzc/change-string-case-action@v6
+        uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.IMAGE_REGISTRY }}
 
       - name: Lowercase Image
         id: image_case
-        using: ASzc/change-string-case-action@v6
+        uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.IMAGE_NAME }}
 
       - name: Maximize build space
-        using: AdityaGarg8/remove-unwanted-software@v2
+        uses: AdityaGarg8/remove-unwanted-software@v2
         with:
           remove-dotnet: 'true'
           remove-android: 'true'
           remove-haskell: 'true'
 
-      # Build image using Buildah action
+      # Build image uses Buildah action
       - name: Build Image
         id: build_image
-        using: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
             ./Containerfile
@@ -204,7 +204,7 @@ jobs:
 
       # Push the image to GHCR (Image Registry)
       - name: Push To GHCR
-        using: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v2
         id: push
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/live' || github.ref == 'refs/heads/staging')
         env:
@@ -220,7 +220,7 @@ jobs:
             --disable-content-trust
 
       - name: Login to GitHub Container Registry
-        using: docker/login-action@v3
+        uses: docker/login-action@v3
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/live' || github.ref == 'refs/heads/staging')
         with:
           registry: ghcr.io
